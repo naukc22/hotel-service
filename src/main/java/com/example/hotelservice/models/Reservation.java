@@ -2,6 +2,9 @@ package com.example.hotelservice.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
+@Data
 @Entity
 @Builder
 @NoArgsConstructor
@@ -14,41 +17,18 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "date", nullable = false)
-    private String date;
+    @Column(name = "date_in", nullable = false)
+    private LocalDate dateIn;
 
+    @Column(name = "date_exit", nullable = false)
+    private LocalDate dateExit;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
 
-    public Reservation(String date, Room room) {
-        this.date = date;
-        this.room = room;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 }

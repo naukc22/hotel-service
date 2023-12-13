@@ -4,46 +4,58 @@ import com.example.hotelservice.dto.ReservationDTO;
 import com.example.hotelservice.models.Reservation;
 import com.example.hotelservice.models.Room;
 import com.example.hotelservice.repository.ReservationRepository;
-import com.example.hotelservice.repository.RoomRepository;
 import com.example.hotelservice.service.ReservationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ReservationServiceImp implements ReservationService {
 
-    ReservationRepository reservationRepository;
-    RoomRepository roomRepository;
-
-    @Autowired
-    public ReservationServiceImp(ReservationRepository reservationRepository, RoomRepository roomRepository) {
-        this.reservationRepository = reservationRepository;
-        this.roomRepository = roomRepository;
-    }
+    private final ReservationRepository reservationRepository;
+    private final RoomServiceImp roomServiceImp;
 
 
-
-    public void create(ReservationDTO reservationDTO) {
+    @Override
+    public ResponseEntity<String> create(ReservationDTO reservationDTO) {
         /** Формат даты - "yyyy-MM-dd" **/
-        LocalDate in = LocalDate.parse(reservationDTO.getCheck_in());
-        LocalDate out = LocalDate.parse(reservationDTO.getCheck_out());
+        LocalDate in = LocalDate.parse(reservationDTO.getDateIn());
+        LocalDate out = LocalDate.parse(reservationDTO.getDateExit());
 
-        Room room = roomRepository.findById(reservationDTO.getRoom()).orElse(null);
-
-        /** Цикл создаёт в базе все брони для конкретного номера в заданном диапозоне дат **/
-        for (LocalDate date = in; date.isBefore(out); date = date.plusDays(1)) {
-            reservationRepository.save(new Reservation(date.toString(),room));
+        if (out.isBefore(in)){
+            return ResponseEntity.status(HttpStatus.OK).body("Дата заезда позже чем дата выезда");
         }
 
+        if (in.equals(out)) {
+            return ResponseEntity.status(HttpStatus.OK).body("Минимальный срок бронирования 1 сутки");
+        }
+
+        Optional<Room> room = roomServiceImp.findById(reservationDTO.getRoom());
+
+        if(room.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body("Такого номера не существует");
+        }
+
+        if(reservationRepository.isAvailable(room.get(), in, out)) {
+            Reservation reserv = Reservation.builder()
+                    .dateIn(in)
+                    .dateExit(out)
+                    .room(room.get())
+                    .name(reservationDTO.getName())
+                    .build();
+
+            reservationRepository.save(reserv);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Номер успешно забронирован!");
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body("Запрашиваемые даты к сожалению заняты!");
+        }
 
     }
 

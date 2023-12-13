@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -29,6 +31,11 @@ public class RoomServiceImp implements RoomService {
     public boolean delete(int id) {
         roomRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public Optional<Room> findById(int id) {
+        return roomRepository.findById(id);
     }
 
 
