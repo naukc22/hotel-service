@@ -3,6 +3,7 @@ package com.example.hotelservice.controllers;
 import com.example.hotelservice.dto.ReservationDTO;
 import com.example.hotelservice.service.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,11 @@ public class ReservationController {
     @PostMapping(value = "/create", produces = "application/json")
     public ResponseEntity<String> create(@RequestBody ReservationDTO reservationDTO) {
         return reservationService.create(reservationDTO);
+    }
+
+    @GetMapping(value = "/hello")
+    public ResponseEntity<String> hello () {
+        return ResponseEntity.ok("HELLO DUDE");
     }
 
 
