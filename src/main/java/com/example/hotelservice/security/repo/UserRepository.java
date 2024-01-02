@@ -1,6 +1,6 @@
-package com.example.hotelservice.repository;
+package com.example.hotelservice.security.repo;
 
-import com.example.hotelservice.models.security_models.User;
+import com.example.hotelservice.security.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

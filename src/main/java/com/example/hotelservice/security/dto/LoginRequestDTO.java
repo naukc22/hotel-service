@@ -1,4 +1,5 @@
-package com.example.hotelservice.models.security_models;
+package com.example.hotelservice.security.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class LoginRequestDTO {
 
-    private String firstname;
-    private String lastname;
     private String email;
-    private String password;
-
-
+    String password;
 }

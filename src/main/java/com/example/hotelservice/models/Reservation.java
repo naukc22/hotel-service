@@ -1,6 +1,11 @@
 package com.example.hotelservice.models;
+
+import com.example.hotelservice.security.models.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -27,8 +32,11 @@ public class Reservation {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    @JoinColumn(name = "room_id")
     private Room room;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

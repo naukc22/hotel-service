@@ -1,10 +1,10 @@
-package com.example.hotelservice.models.security_models;
+package com.example.hotelservice.security.models;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Role {
 
-    USER,
-    ADMIN
+    ROLE_USER,
+    ROLE_ADMIN
 }

@@ -1,17 +1,16 @@
 package com.example.hotelservice.controllers;
 
+import com.example.hotelservice.dto.DateDTO;
+import com.example.hotelservice.dto.FreeRoomsListDTO;
 import com.example.hotelservice.models.Room;
-import com.example.hotelservice.repository.RoomRepository;
 import com.example.hotelservice.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("admin/room")
 public class RoomController {
 
     private final RoomService roomService;
@@ -31,6 +30,15 @@ public class RoomController {
         roomService.add(room);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    /**
+     * Вовзращает список из номеров, свободных на переданую дату
+     * @param DateDto - дата для проверки
+     */
+//    @GetMapping(value = "/showFreeRoomsForDate", produces = "application/json")
+//    public ResponseEntity<FreeRoomsListDTO> showFreeRoomsForDate(@RequestBody DateDTO dateDTO) {
+//
+//    }
 
 
     /**
