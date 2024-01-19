@@ -1,109 +1,98 @@
-Hotel Reservation System
+# Hotel Reservation System
+
 Этот проект представляет собой систему бронирования для отеля, разработанную с использованием Java Spring, базы данных Postgres и механизма безопасности Spring Security. Проект предоставляет REST-сервис для общения по протоколу HTTP и поддерживает две основные роли - пользователь и администратор.
 
-Требования
-Java 8+
-Maven
-PostgreSQL
-Установка и настройка
-Клонирование репозитория:
+## Требования
 
-git clone https://github.com/yourusername/hotel-reservation-system.git
-cd hotel-reservation-system
-Настройка базы данных:
+- Java 8+
+- Maven
+- PostgreSQL
 
-Создайте базу данных PostgreSQL с именем hotel_reservation.
-В файле src/main/resources/application.properties укажите настройки вашей базы данных (название, пользователь, пароль).
-Запуск приложения:
+## Установка и настройка
 
+1. **Клонирование репозитория:**
+    ```bash
+    git clone https://github.com/yourusername/hotel-reservation-system.git
+    cd hotel-reservation-system
+    ```
 
-mvn spring-boot:run
-Приложение будет доступно по адресу http://localhost:8080.
+2. **Настройка базы данных:**
+    - Создайте базу данных PostgreSQL с именем `hotel_reservation`.
+    - В файле `src/main/resources/application.properties` укажите настройки вашей базы данных (название, пользователь, пароль).
 
-Роли и права доступа
-Роли:
-USER: Пользователь, который может бронировать и отменять бронирование.
-ADMIN: Администратор, который может добавлять и удалять номера, а также редактировать бронирования.
+3. **Запуск приложения:**
+    ```bash
+    mvn spring-boot:run
+    ```
 
-API Endpoints
-Пользовательские операции:
-Бронирование номера:
+Приложение будет доступно по адресу `http://localhost:8080`.
 
-POST /api/reservations
-Отмена бронирования:
+## Роли и права доступа
 
-DELETE /api/reservations/{reservationId}
-Операции администратора:
-Добавление номера:
+### Роли:
 
-POST /api/rooms
-Удаление номера:
+- **USER:** Пользователь, который может бронировать и отменять бронирование.
+- **ADMIN:** Администратор, который может добавлять и удалять номера, а также редактировать бронирования.
 
-DELETE /api/rooms/{roomId}
-Редактирование бронирования:
+## API Endpoints
 
-PUT /api/reservations/{reservationId}
-Аутентификация и авторизация
+### Пользовательские операции:
+
+- **Бронирование номера:**
+    ```http
+    POST /api/reservations
+    ```
+  
+- **Отмена бронирования:**
+    ```http
+    DELETE /api/reservations/{reservationId}
+    ```
+
+### Операции администратора:
+
+- **Добавление номера:**
+    ```http
+    POST /api/rooms
+    ```
+
+- **Удаление номера:**
+    ```http
+    DELETE /api/rooms/{roomId}
+    ```
+
+- **Редактирование бронирования:**
+    ```http
+    PUT /api/reservations/{reservationId}
+    ```
+
+## Аутентификация и авторизация
+
 Для выполнения операций требуется аутентификация. Для этого используется Spring Security.
 
+### Форма аутентификации:
 
-Форма аутентификации:
-Endpoint:
+- **Endpoint:**
+    ```http
+    POST /api/authenticate
+    ```
 
-POST /api/authenticate
-Запрос:
+- **Запрос:**
+    ```json
+    {
+        "username": "your_username",
+        "password": "your_password"
+    }
+    ```
 
-{
-    "username": "your_username",
-    "password": "your_password"
-}
-Ответ:
+- **Ответ:**
+    ```json
+    {
+        "token": "your_access_token"
+    }
+    ```
 
-{
-    "token": "your_access_token"
-}
-
-В каждом запросе к защищенным ресурсам в заголовке Authorization должен быть передан токен доступа.
+В каждом запросе к защищенным ресурсам в заголовке `Authorization` должен быть передан токен доступа.
 
 Пример:
-
+```http
 Authorization: Bearer your_access_token
-Примеры использования
-
-Бронирование номера:
-
-POST /api/reservations
-Authorization: Bearer your_access_token
-
-{
-    "roomId": 123,
-    "checkInDate": "2024-01-20",
-    "checkOutDate": "2024-01-25"
-}
-Отмена бронирования:
-
-DELETE /api/reservations/456
-Authorization: Bearer your_access_token
-Добавление номера:
-
-POST /api/rooms
-Authorization: Bearer your_access_token
-
-{
-    "number": "101",
-    "type": "Standard",
-    "price": 100.0
-}
-
-Удаление номера:
-DELETE /api/rooms/123
-Authorization: Bearer your_access_token
-
-Редактирование бронирования:
-PUT /api/reservations/789
-Authorization: Bearer your_access_token
-
-{
-    "checkInDate": "2024-01-22",
-    "checkOutDate": "2024-01-27"
-}
