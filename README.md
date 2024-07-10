@@ -2,6 +2,13 @@
 
 Этот проект представляет собой систему бронирования для отеля, разработанную с использованием Java Spring, базы данных Postgres и механизма безопасности Spring Security. Проект предоставляет REST-сервис для общения по протоколу HTTP и поддерживает две основные роли - пользователь и администратор.
 
+![image](https://github.com/naukc22/hotel-service/assets/134156061/79090a36-9239-45a6-ad73-ba500d9bb720)
+![image](https://github.com/naukc22/hotel-service/assets/134156061/0b445664-a9a8-4bf6-a894-f69cd8087de5)
+![image](https://github.com/naukc22/hotel-service/assets/134156061/eef4d12e-5cef-4f23-8d07-86a03e6d850e)
+![image](https://github.com/naukc22/hotel-service/assets/134156061/89828ae9-a54f-4020-89d8-86f919a61f65)
+
+
+
 ## Требования
 
 - Java 8+
